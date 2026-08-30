@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Last Message</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===== LIVE WALLPAPER BACKGROUND LAYER ===== -->
+    <div id="wallpaper-container">
+        <canvas id="webgl-canvas"></canvas>
+        <canvas id="particle-canvas"></canvas>
+    </div>
+
+    <!-- Background Audio Element -->
+    <audio id="bgm-audio" src="assets/audio/bgm.mp3" autoplay loop preload="auto" playsinline></audio>
+
+    <!-- ===== PIN LOCK OVERLAY ===== -->
+    <div class="pin-overlay" id="pinOverlay">
+        <div class="pin-box">
+            <h2>a little pause</h2>
+            <p>enter the pin to read</p>
+            <div class="pin-input-group">
+                <input type="password" id="pinInput" maxlength="4" placeholder="· · · ·" autofocus autocomplete="off">
+                <button id="pinBtn">unlock</button>
+                <div class="pin-error" id="pinError"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN LETTER CONTAINER ===== -->
+    <div class="letter-container">
+        <div class="letter-card" id="letterCard">
+            <div class="letter-content">
+
+                <!-- opening – thank you -->
+                <p>
+                    <span class="soft-highlight">i just wanted to say thank youuu</span> and
+                    <span class="sorry">i'm really really sorryyy.</span>
+                </p>
+
+                <div class="divider"></div>
+
+                <!-- first paragraph: gratitude for being there -->
+                <p>
+                    after everything that happened between us and after all these months,
+                    <span class="gratitude">you still came to talk to me</span> when i was feeling alone.
+                    you really didn't have to do that, but you still chose to be there for me.
+                    and those two days we spent together at iv, where for a little while it felt like
+                    things were the way they used to be, <span class="soft-highlight">meant a lottt to me.</span>
+                    i know i was the one who asked you for that time,
+                    <span class="sorry">but you still agreed and gave me those moments even though you didn't have
+                        to.</span>
+                    and i'll always be grateful for thattt.
+                </p>
+
+                <!-- gratitude repetition -->
+                <p>
+                    <span class="gratitude">thank you for being there for me</span> when you didn't even have to.
+                    i'll never forget that and i'll always be grateful for the way you were there for me.
+                </p>
+
+                <div class="divider" style="width:50px;"></div>
+
+                <!-- apology section -->
+                <p>
+                    and <span class="sorry">i'm really sorryyy</span> for putting you through all of this again.
+                    i shouldn't have done it. i'm sorry for the things i said and for any words that hurt you.
+                    i never wanted to hurt you, but i know i did and <span class="sorry">i'm genuinely sorryyy.</span>
+                </p>
+
+                <!-- moving on / promise -->
+                <p>
+                    i will move on for sure. i promise i'll try my best to accept everything and move forward.
+                    i don't want to make things harder for you anymore and <span class="caps-soft">i won't disturb you
+                        againnn.</span>
+                    i swear on it. i'll respect your space and your life from now on.
+                </p>
+
+                <!-- offer to help / clarify -->
+                <p class="gentle-quote">
+                    but if anything happens at home because of me or if there's any problem and you need my help
+                    or need me to clarify something, please don't hesitate to ask me. and if they want to talk to me,
+                    please don't try to protect me or take everything on yourself. let them talk to me.
+                    i'll clarify whatever i need to and i'll handle it. <span class="soft-highlight">you don't have to
+                        worry about protecting me.</span>
+                </p>
+
+                <!-- clarifying no expectation -->
+                <p>
+                    i'm not saying this because i expect anything from you or because i want you to stay in my life.
+                    i just want you to know that if there's ever something that needs to be cleared or handled,
+                    i won't run away from it.
+                </p>
+
+                <!-- final gratitude + goodbye -->
+                <p>
+                    <span class="gratitude">thank youuu</span> for everything, for the time, for the memories and for
+                    being there for me
+                    when i needed someone. <span class="sorry">i'm really really sorry for everythinggg.</span>
+                </p>
+
+                <p>
+                    i'll remember the good parts, learn from my mistakes and move on.
+                    i genuinely hope you'll be happy and peaceful alwaysss.
+                    <span class="peace-line">please take care of yourself and be happyyy.</span>
+                </p>
+
+                <!-- closing message -->
+                <div class="closing-box">
+                    <p class="closing-note">
+                        you don't owe me anything. please don't have any guilt.
+                        and making this didn't take more time —
+                        <span class="closing-highlight">so please don't think i put in too much effort.</span>
+                        i'm done for good this time.once again i genuinely dont regret anything and
+                        thankyouuuuuuuuuuuu......and its time for me to finally move on for good this time
+                    </p>
+                </div>
+
+                <!-- closing decorative line -->
+                <div class="closing-line">
+                    <span>with all my heart</span>
+                    <span>always grateful</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Live Wallpaper Scripts -->
+    <script src="js/noise.js"></script>
+    <script src="js/webgl-engine.js"></script>
+    <script src="js/particles.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- PIN Script -->
+    <script>
+        (function () {
+            const overlay = document.getElementById('pinOverlay');
+            const pinInput = document.getElementById('pinInput');
+            const pinBtn = document.getElementById('pinBtn');
+            const pinError = document.getElementById('pinError');
+            const correctPin = '2007';
+
+            function unlockPage() {
+                const entered = pinInput.value.trim();
+                if (entered === correctPin) {
+                    overlay.classList.add('hidden');
+                    pinError.textContent = '';
+                    pinInput.value = '';
+                    if (window.audioInstance) {
+                        window.audioInstance.play();
+                    }
+                } else {
+                    pinError.textContent = 'wrong pin, try again';
+                    pinInput.value = '';
+                    pinInput.focus();
+                }
+            }
+
+            pinBtn.addEventListener('click', unlockPage);
+
+            pinInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    unlockPage();
+                }
+                if (e.key !== 'Backspace' && e.key !== 'Delete' && !/^[0-9]$/.test(e.key) && e.key !== 'Enter') {
+                    e.preventDefault();
+                }
+            });
+
+            window.addEventListener('load', () => {
+                setTimeout(() => pinInput.focus(), 300);
+            });
+        })();
+    </script>
+</body>
+
+</html>
